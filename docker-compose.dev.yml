@@ -1,39 +1,31 @@
-services:
-  app:
-    build:
-      context: ./todo-frontend
-      dockerfile: dev.Dockerfile
-    container_name: todo-frontend-dev2
-    volumes:
-      - ./todo-frontend:/usr/src/app
-    environment:
-      - VITE_BACKEND_URL=http://server:3000
-    ports:
-      - "5173:5173"
+version: "3.8"
 
-  server:
-    build:
-      context: ./todo-backend
-      dockerfile: dev.Dockerfile
-    container_name: todo-backend-dev
-    volumes:
-      - ./todo-backend:/usr/src/app
-    environment:
-      - REDIS_HOST=todo-redis
-      - MONGODB_HOST=todo-mongo
-      - MONGODB_USERNAME=root
-      - MONGODB_PASSWORD=example
+services:
+  backend:
+    build: .
+    container_name: todo-backend
+    restart: unless-stopped
     ports:
       - "3000:3000"
+    environment:
+      - REDIS_HOST=redis
+      - MONGODB_HOST=mongo
+      - MONGODB_USERNAME=root
+      - MONGODB_PASSWORD=example
+    depends_on:
+      - redis
+      - mongo
+    volumes:
+      - ./:/usr/src/app
 
   mongo:
     image: mongo:5
     container_name: todo-mongo
     ports:
-      - "27017:27017"
+      - 27017:27017
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=root
-      - MONGO_INITDB_ROOT_PASSWORD=example
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
     volumes:
       - todo-mongo-data:/data/db
 
@@ -41,8 +33,11 @@ services:
     image: redis:7
     container_name: todo-redis
     ports:
-      - "6379:6379"
+      - 6379:6379
     command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis-data:/data   # <-- Added Redis volume
 
 volumes:
   todo-mongo-data:
+  redis-data:   # <-- Declare the Redis volume
