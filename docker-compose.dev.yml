@@ -1,0 +1,45 @@
+version: "3.8"
+
+services:
+  backend:
+    # Build the image from the Dockerfile in the current directory
+    build: . 
+    container_name: todo-backend 
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      
+      - REDIS_HOST=redis 
+      - MONGODB_HOST=mongo
+    
+      - MONGODB_USERNAME=root 
+      - MONGODB_PASSWORD=example
+ 
+    depends_on:
+      - redis
+      - mongo
+   
+    volumes:
+      - ./:/usr/src/app 
+
+  mongo:
+    image: mongo:5
+    container_name: todo-mongo
+    ports:
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: example
+    volumes:
+      - todo-mongo-data:/data/db
+
+  redis:
+    image: redis:7
+    container_name: todo-redis
+    ports:
+      - 6379:6379
+    command: ["redis-server", "--appendonly", "yes"]
+
+volumes:
+  todo-mongo-data:

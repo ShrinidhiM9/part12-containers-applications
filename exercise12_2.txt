@@ -1,0 +1,14 @@
+# Step 1: Run an Ubuntu container with bash
+docker run -it ubuntu bash
+
+# Step 2: Create directory /usr/src/app
+mkdir -p /usr/src/app
+
+# Step 3: Create a file /usr/src/app/index.js
+echo 'console.log("Hello from container!");' > /usr/src/app/index.js
+
+# Verify file exists
+cat /usr/src/app/index.js
+
+# Step 4: Exit the container
+exit

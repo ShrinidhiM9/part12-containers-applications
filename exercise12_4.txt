@@ -1,0 +1,24 @@
+# Start Ubuntu container
+docker run -it ubuntu bash
+
+# Update packages
+apt update
+
+# Install curl
+apt install -y curl
+
+# Install Node.js (version 20.x)
+curl -sL https://deb.nodesource.com/setup_20.x | bash
+apt install -y nodejs
+
+# Verify Node installation
+node -v
+npm -v
+
+# Run your index.js file
+node /usr/src/app/index.js
+# Expected output:
+# Hello World
+
+# Exit container
+exit

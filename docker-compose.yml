@@ -1,0 +1,29 @@
+# todo-app/todo-backend/docker-compose.yml
+version: "3.8"
+
+services:
+  backend:
+    build: .
+    container_name: todo-backend
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    depends_on:
+      - redis
+    volumes:
+      - ./:/usr/src/app:ro  # optional: mounts source read-only for dev; remove if not desired
+
+  redis:
+    image: redis:7-alpine
+    container_name: todo-redis
+    restart: unless-stopped
+    volumes:
+      - redis-data:/data
+    ports:
+      - "6379:6379"
+
+volumes:
+  redis-data:

@@ -1,0 +1,13 @@
+# Start Ubuntu container
+docker run -it ubuntu bash
+
+# Install nano editor
+apt update
+apt install -y nano
+
+# Edit the file with nano
+nano /usr/src/app/index.js
+# Save and exit: CTRL+O, Enter, CTRL+X
+
+# Exit container
+exit

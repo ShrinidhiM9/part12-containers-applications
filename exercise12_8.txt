@@ -1,0 +1,43 @@
+$ docker exec -it todo-mongo bash
+root@9aea42d38a39:/# mongosh
+Current Mongosh Log ID: 68db70a1cbcc21bfde544ca6
+Connecting to:          mongodb://127.0.0.1:27017/?directConnection=true&serverSelectionTimeoutMS=2000&appName=mongosh+2.3.8
+Using MongoDB:          5.0.31
+Using Mongosh:          2.3.8
+
+test> use admin
+switched to db admin
+admin> db.auth("root","example")
+{ ok: 1 }
+admin> db.getUsers()
+{
+  users: [
+    {
+      _id: 'admin.root',
+      userId: UUID('a174bc2b-203a-4866-943b-f4cc65ebf25e'),
+      user: 'root',
+      db: 'admin',
+      roles: [ { role: 'root', db: 'admin' } ],
+      mechanisms: [ 'SCRAM-SHA-1', 'SCRAM-SHA-256' ]
+    }
+  ],
+  ok: 1
+}
+admin> use the_database
+switched to db the_database
+the_database> db.todos.insertOne({ text: "Increase the number of tools in my tool belt", done: false })
+{
+  acknowledged: true,
+  insertedId: ObjectId('68db71bbcbcc21bfde544ca7')
+}
+the_database> db.todos.find().pretty()
+[
+  {
+    _id: ObjectId('68db71bbcbcc21bfde544ca7'),
+    text: 'Increase the number of tools in my tool belt',
+    done: false
+  }
+]
+the_database> exit
+root@9aea42d38a39:/# exit 
+exit 
