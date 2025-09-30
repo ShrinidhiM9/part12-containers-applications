@@ -12,11 +12,11 @@ RUN npm install
 # Copy the rest of the source code
 COPY . .
 
-# Install nodemon globally for live reload
-RUN npm install -g nodemon
+# Expose Vite development server port
+EXPOSE 5173
 
-# Expose the backend port
-EXPOSE 3000
+# Use VITE_BACKEND_URL from docker-compose
+ENV VITE_BACKEND_URL=${VITE_BACKEND_URL}
 
-# Start the server with nodemon
-CMD ["nodemon", "--legacy-watch", "index.js"]
+# Start the Vite development server
+CMD ["npm", "run", "dev", "--", "--host", "0.0.0.0"]

@@ -1,19 +1,13 @@
-# Express application
+# React application
+
+This application is created with [Vite](https://vitest.dev/).
 
 Install dependencies with `npm install`
 
-Run with `npm start`
+You can run the application in development mode with `npm run dev`
 
-Or in development mode with `npm run dev`
+You can build static files for production release with `npm run build`
 
-# Visit counter
+## Environment variables
 
-When running the server, visit http://localhost:3000 to see visit counter, or give environment variable `PORT` to change the port.
-
-# MongoDB
-
-The application has /todos crud which requires a MongoDB. Pass connection url with env `MONGO_URL`
-
-# Redis
-
-Pass connection url with env `REDIS_URL`
+Use env VITE_BACKEND_URL to set where the backend for this application is
